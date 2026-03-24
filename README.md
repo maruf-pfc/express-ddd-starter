@@ -2,11 +2,13 @@
 
 > A production-ready, open-source Express 5 + TypeScript + MongoDB starter using the **Modular / Domain-Driven Design (DDD)** architecture pattern. Built with [Bun](https://bun.sh) as the runtime and package manager.
 
+[![CI](https://github.com/maruf-pfc/express-ddd-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/maruf-pfc/express-ddd-starter/actions/workflows/ci.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Express](https://img.shields.io/badge/Express-5.x-black?logo=express)](https://expressjs.com/)
 [![Bun](https://img.shields.io/badge/Bun-1.x-orange?logo=bun)](https://bun.sh/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-green?logo=mongodb)](https://mongoosejs.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
 ---
 
@@ -238,4 +240,4 @@ That's it — the module is fully isolated. No other files need to change except
 
 ## 📄 License
 
-MIT © [Your Name](https://github.com/your-username)
+MIT © [Md. Maruf Sarker](https://github.com/maruf-pfc)
