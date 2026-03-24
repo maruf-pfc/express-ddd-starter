@@ -110,7 +110,7 @@ Each module is **self-contained**. You can move, test, or delete a module withou
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/your-username/express-ddd-starter.git
+git clone https://github.com/maruf-pfc/express-ddd-starter.git
 cd express-ddd-starter
 bun install
 ```
