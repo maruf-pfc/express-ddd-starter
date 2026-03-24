@@ -1,0 +1,9 @@
+# Test runner configuration
+[test]
+preload = []
+timeout = 10000
+
+# Coverage configuration (run with: bun test --coverage)
+[test.coverage]
+include = ["src/**/*.ts"]
+exclude = ["src/**/*.test.ts", "src/__tests__/**"]
