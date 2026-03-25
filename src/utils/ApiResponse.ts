@@ -4,7 +4,7 @@ import type { IApiResponse } from '../interfaces/index.ts';
  * ApiResponse — standardises all success responses.
  *
  * @example
- * res.status(200).json(new ApiResponse(200, 'Fetched', data));
+ * res.status(HttpStatus.OK).json(new ApiResponse(HttpStatus.OK, Messages.SUCCESS, data));
  */
 class ApiResponse<T = unknown> implements IApiResponse<T> {
   public success: boolean;

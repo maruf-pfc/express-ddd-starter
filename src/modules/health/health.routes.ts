@@ -1,16 +1,19 @@
 import { Router } from 'express';
 import healthController from './health.controller.ts';
+import validate from '../../middlewares/validate.ts';
+import { createHealthSchema } from './health.schema.ts';
 
 /**
- * HealthRouter — routes for the health module.
- *
- * Each module exports its own router. The central routes/index.ts
- * mounts all module routers under /api/v1.
- *
- * @route GET /api/v1/health
+ * Health Router
+ * Located inside the health domain folder to preserve modularity.
+ * @route /api/v1/health
  */
 const router = Router();
 
+// GET request
 router.get('/', healthController.getHealth);
+
+// POST request with Schema boundary validation
+router.post('/', validate(createHealthSchema), healthController.createPing);
 
 export default router;

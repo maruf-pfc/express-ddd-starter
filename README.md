@@ -44,20 +44,31 @@ express-ddd-starter/
 │   │       └── ApiResponse.test.ts
 │   ├── config/
 │   │   └── index.ts                  # Env vars loaded via dotenv
+│   ├── constants/
+│   │   ├── http.ts                   # HttpStatus codes
+│   │   └── messages.ts               # Common response strings
 │   ├── db/
 │   │   └── connectDB.ts              # Mongoose connection
 │   ├── interfaces/
-│   │   └── index.ts                  # Shared TypeScript interfaces
+│   │   └── index.ts                  # Shared global interfaces
 │   ├── middlewares/
 │   │   ├── globalErrorHandler.ts
-│   │   └── notFound.ts
+│   │   ├── notFound.ts
+│   │   └── validate.ts               # Zod request validation hook
 │   ├── modules/                      # ← Feature modules live here
 │   │   └── health/
-│   │       ├── health.service.ts     # Business logic (no Express types)
 │   │       ├── health.controller.ts  # HTTP handlers
-│   │       └── health.routes.ts      # Module-scoped Express Router
+│   │       ├── health.dto.ts         # Data Transfer Objects shapes
+│   │       ├── health.model.ts       # Mongoose DB schema
+│   │       ├── health.repository.ts  # Database abstraction layer
+│   │       ├── health.routes.ts      # Module-scoped Express Router
+│   │       ├── health.schema.ts      # Zod validation schemas
+│   │       ├── health.service.ts     # Business logic (depends on repository)
+│   │       └── health.types.ts       # Module-scoped custom types
 │   ├── routes/
 │   │   └── index.ts                  # Central route registry (/api/v1)
+│   ├── types/
+│   │   └── express.d.ts              # Express augmented types (e.g. req.user)
 │   ├── utils/
 │   │   ├── ApiError.ts
 │   │   ├── ApiResponse.ts
@@ -83,12 +94,16 @@ The key idea: **code is organised by feature domain, not by technical role**.
 
 ```
 src/modules/<feature>/
-  ├── <feature>.service.ts     # All business logic
   ├── <feature>.controller.ts  # HTTP layer — thin, delegates to service
+  ├── <feature>.service.ts     # All business logic, coordinates system
+  ├── <feature>.repository.ts  # Infrastructure layer — DB abstraction
+  ├── <feature>.model.ts       # DB models/schemas
+  ├── <feature>.dto.ts         # Shape of data crossing boundaries
+  ├── <feature>.schema.ts      # Validation (e.g., Zod)
   └── <feature>.routes.ts      # Express Router, exported & registered centrally
 ```
 
-Each module is **self-contained**. You can move, test, or delete a module without touching any other module.
+Each module is **self-contained**. You can move, test, or delete a module without touching any other module. The **Repository pattern** is used to decouple the Service layer from the underlying database implementation (e.g., Mongoose).
 
 ### vs MVC (Layered) pattern
 
@@ -209,16 +224,18 @@ mkdir -p src/modules/users
 touch src/modules/users/users.service.ts
 touch src/modules/users/users.controller.ts
 touch src/modules/users/users.routes.ts
-
-# If you need a Mongoose model, create it inside the module:
+touch src/modules/users/users.repository.ts
 touch src/modules/users/users.model.ts
+touch src/modules/users/users.dto.ts
+touch src/modules/users/users.schema.ts
 
 # Register the router in:
 # src/routes/index.ts → router.use('/users', usersRoutes);
 
 # Write tests:
-touch src/__tests__/modules/users.service.test.ts
-touch src/__tests__/modules/users.routes.test.ts
+mkdir -p src/__tests__/modules/users
+touch src/__tests__/modules/users/users.service.test.ts
+touch src/__tests__/modules/users/users.routes.test.ts
 ```
 
 That's it — the module is fully isolated. No other files need to change except `src/routes/index.ts`.
@@ -234,6 +251,7 @@ That's it — the module is fully isolated. No other files need to change except
 | `helmet` | Security headers |
 | `cors` | Cross-origin support |
 | `morgan` | HTTP request logging |
+| `zod` | Request payload validation |
 | `dotenv` | Environment variable loading |
 
 ---

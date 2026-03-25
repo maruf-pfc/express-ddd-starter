@@ -2,7 +2,7 @@
  * ApiError — a custom error class that carries an HTTP status code.
  *
  * @example
- * throw new ApiError(404, 'Resource not found');
+ * throw new ApiError(HttpStatus.NOT_FOUND, Messages.NOT_FOUND);
  */
 class ApiError extends Error {
   public statusCode: number;
